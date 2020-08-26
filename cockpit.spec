@@ -246,12 +246,13 @@ rm -f %{buildroot}/%{_prefix}/share/metainfo/org.cockpit-project.cockpit-storage
 sed -i "s|%{buildroot}||" *.list
 
 # Build the package lists for debug package, and move debug files to installed locations
-find %{buildroot}/usr/src/debug%{_datadir}/cockpit -type f -o -type l > debug.partial
+find %{buildroot}/usr/lib/debug %{buildroot}/usr/src/debug%{_datadir}/cockpit -type f -o -type l > debug.partial
 sed -i "s|%{buildroot}/usr/src/debug||" debug.partial
 sed -n 's/\.map\(\.gz\)\?$/\0/p' *.list >> debug.partial
 sed -i '/\.map\(\.gz\)\?$/d' *.list
 tar -C %{buildroot}/usr/src/debug -cf - . | tar -C %{buildroot} -xf -
-rm -rf %{buildroot}/usr/src/debug
+tar -C %{buildroot}/usr/lib/debug -cf - . | tar -C %{buildroot} -xf -
+rm -rf %{buildroot}/usr/src/debug %{buildroot}/usr/lib/debug
 
 # On RHEL kdump, networkmanager, selinux, and sosreport are part of the system package
 %if 0%{?rhel}
