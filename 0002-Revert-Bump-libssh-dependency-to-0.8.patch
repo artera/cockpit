@@ -1,0 +1,54 @@
+From ba9c870c712cc03b835d5f1df1ab399e6eba7e54 Mon Sep 17 00:00:00 2001
+From: vagrant <vagrant@cockpit.vm>
+Date: Mon, 24 Aug 2020 12:37:58 +0200
+Subject: [PATCH 2/4] Revert "Bump libssh dependency to >= 0.8"
+
+This reverts commit 2eb5e5a6e513e63aa01939ff6d28cc02bf481f34.
+---
+ configure.ac         | 2 +-
+ tools/cockpit.spec   | 2 +-
+ tools/debian/control | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index a7af127a4..50866cf86 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -66,7 +66,7 @@ AC_MSG_RESULT($enable_prefix_only)
+ #
+ 
+ GLIB_VERSION="2.44"
+-LIBSSH_VERSION="0.8"
++LIBSSH_VERSION="0.6.0"
+ GIO_VERSION="2.37.4" # For appropriate version of TLS logic
+ 
+ GIO_REQUIREMENT="gio-unix-2.0 >= $GIO_VERSION gio-2.0 >= $GIO_VERSION"
+diff --git a/tools/cockpit.spec b/tools/cockpit.spec
+index 8bb3a59df..6f37ed5fe 100644
+--- a/tools/cockpit.spec
++++ b/tools/cockpit.spec
+@@ -72,7 +72,7 @@ BuildRequires: autoconf automake
+ BuildRequires: /usr/bin/python3
+ BuildRequires: gettext >= 0.19.7
+ %if %{defined build_dashboard}
+-BuildRequires: libssh-devel >= 0.8
++BuildRequires: libssh-devel >= 0.7.1
+ %endif
+ BuildRequires: openssl-devel
+ BuildRequires: gnutls-devel
+diff --git a/tools/debian/control b/tools/debian/control
+index 05fdb1057..79cc50471 100644
+--- a/tools/debian/control
++++ b/tools/debian/control
+@@ -5,7 +5,7 @@ Maintainer: Cockpit <cockpit@cockpit-project.org>
+ Build-Depends: debhelper (>= 10),
+                dpkg-dev (>= 1.17.14),
+                gettext (>= 0.19.7),
+-               libssh-dev (>= 0.8),
++               libssh-dev,
+                zlib1g-dev,
+                libkrb5-dev (>= 1.11),
+                libxslt1-dev,
+-- 
+2.28.0
+

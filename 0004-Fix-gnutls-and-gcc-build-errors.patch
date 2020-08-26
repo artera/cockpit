@@ -1,0 +1,38 @@
+From 357ee35c0e86d4b6c57aeed9021f119bdf89bd4b Mon Sep 17 00:00:00 2001
+From: Massimiliano Torromeo <massimiliano.torromeo@gmail.com>
+Date: Wed, 26 Aug 2020 17:27:23 +0200
+Subject: [PATCH 4/4] Fix gnutls and gcc build errors
+
+---
+ src/tls/certfile.c      | 2 +-
+ src/tls/test-certfile.c | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/src/tls/certfile.c b/src/tls/certfile.c
+index 4af86d9ee..bc2978c18 100644
+--- a/src/tls/certfile.c
++++ b/src/tls/certfile.c
+@@ -148,7 +148,7 @@ certfile_open (int                   dirfd,
+       unlink_on_error = fingerprint.str;
+ 
+       /* We're going to write the file now, so calculate its contents */
+-      int r = gnutls_pem_base64_encode2 ("CERTIFICATE", der, &pem);
++      int r = gnutls_pem_base64_encode_alloc ("CERTIFICATE", der, &pem);
+       if (r != GNUTLS_E_SUCCESS)
+         {
+           warnx ("Couldn't base64 encode certificate: %s", gnutls_strerror (r));
+diff --git a/src/tls/test-certfile.c b/src/tls/test-certfile.c
+index 0030c0c27..835cb72d7 100644
+--- a/src/tls/test-certfile.c
++++ b/src/tls/test-certfile.c
+@@ -21,7 +21,6 @@
+ 
+ #include <errno.h>
+ #include <fcntl.h>
+-#include <stdatomic.h>
+ #include <stdbool.h>
+ #include <sys/socket.h>
+ #include <unistd.h>
+-- 
+2.28.0
+

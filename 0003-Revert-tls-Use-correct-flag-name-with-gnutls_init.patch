@@ -1,0 +1,26 @@
+From 9446e97e9164e07f6350f2a5b84d05aa31fbc0e3 Mon Sep 17 00:00:00 2001
+From: vagrant <vagrant@cockpit.vm>
+Date: Mon, 24 Aug 2020 13:13:53 +0200
+Subject: [PATCH 3/4] Revert "tls: Use correct flag name with gnutls_init"
+
+This reverts commit bd3c8b344eb2c205773e2e1379ca98f3a1a1e85d.
+---
+ src/tls/connection.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/tls/connection.c b/src/tls/connection.c
+index d375180bf..c4b707c0a 100644
+--- a/src/tls/connection.c
++++ b/src/tls/connection.c
+@@ -554,7 +554,7 @@ connection_handshake (Connection *self)
+           return false;
+         }
+ 
+-      ret = gnutls_init (&self->tls, GNUTLS_SERVER | GNUTLS_NO_SIGNAL);
++      ret = gnutls_init (&self->tls, GNUTLS_SERVER | MSG_NOSIGNAL);
+       if (ret != GNUTLS_E_SUCCESS)
+         {
+           warnx ("gnutls_init failed: %s", gnutls_strerror (ret));
+-- 
+2.28.0
+
