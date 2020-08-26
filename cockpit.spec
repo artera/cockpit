@@ -129,7 +129,6 @@ make -j4 check
 %install
 make install DESTDIR=%{buildroot}
 make install-tests DESTDIR=%{buildroot}
-rm -rf %{buildroot}/usr/lib/debug
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pam.d
 install -p -m 644 tools/cockpit.pam $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/cockpit
 rm -f %{buildroot}/%{_libdir}/cockpit/*.so
@@ -266,9 +265,6 @@ rm -f %{buildroot}%{_datadir}/pixmaps/cockpit-sosreport.png
 %if 0%{?build_basic}
 %find_lang cockpit
 %endif
-
-%global _debugsource_packages 1
-%global _debuginfo_subpackages 0
 
 %define find_debug_info %{_rpmconfigdir}/find-debuginfo.sh %{?_missing_build_ids_terminate_build:--strict-build-id} %{?_include_minidebuginfo:-m} %{?_find_debuginfo_dwz_opts} %{?_find_debuginfo_opts} %{?_debugsource_packages:-S debugsourcefiles.list} "%{_builddir}/%{?buildsubdir}"
 
