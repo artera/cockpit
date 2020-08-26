@@ -129,6 +129,7 @@ make -j4 check
 %install
 make install DESTDIR=%{buildroot}
 make install-tests DESTDIR=%{buildroot}
+rm -rf %{buildroot}/usr/lib/debug
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}/pam.d
 install -p -m 644 tools/cockpit.pam $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/cockpit
 rm -f %{buildroot}/%{_libdir}/cockpit/*.so
@@ -251,7 +252,7 @@ sed -i "s|%{buildroot}/usr/src/debug||" debug.partial
 sed -n 's/\.map\(\.gz\)\?$/\0/p' *.list >> debug.partial
 sed -i '/\.map\(\.gz\)\?$/d' *.list
 tar -C %{buildroot}/usr/src/debug -cf - . | tar -C %{buildroot} -xf -
-rm -rf %{buildroot}/usr/{src,lib}/debug
+rm -rf %{buildroot}/usr/src/debug
 
 # On RHEL kdump, networkmanager, selinux, and sosreport are part of the system package
 %if 0%{?rhel}
